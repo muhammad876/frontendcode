@@ -1,16 +1,17 @@
-import React, { useEffect, useState, Component } from "react";
+import React, { useEffect, useState} from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import "./App.css";
-import { auth, db, logout } from "./firebase";
+import { auth, db} from "./firebase";
 import { query, collection, getDocs, where } from "firebase/firestore";
 import CustomerDashboard from "./customerdashbaord";
 import EmployeeDashboard from "./employeedashbaord";
 function Dashbaord() {
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const navigate = useNavigate();
-  let Users;
+  
   useEffect(() => {
     if (loading) return;
     if (!user) return navigate("/");
@@ -23,23 +24,24 @@ function Dashbaord() {
       const doc = await getDocs(q);
       const data = doc.docs[0].data();
       setName(data.name);
+      setEmail(data.email);
     } catch (err) {
       console.error(err);
       alert("An error occured while fetching user data");
     }
   };
 
-  if (name == "Employee" || name == "employee") {
+  if (name === "Employee" || name === "employee") {
     return (
       <div>
-        {/* email = {User.getEmail()} */}
-        <EmployeeDashboard ></EmployeeDashboard>
+     
+        <EmployeeDashboard></EmployeeDashboard>
       </div>
     );
-  } else if (name == "Customer" || name == "customer") {
+  } else if (name === "Customer" || name === "customer") {
     return (
       <div>
-        <CustomerDashboard ></CustomerDashboard>
+        <CustomerDashboard email = {email}></CustomerDashboard>
       </div>
     );
   }

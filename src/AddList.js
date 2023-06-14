@@ -1,10 +1,40 @@
-import { useState} from "react";
-import { Navigate } from "react-router-dom";
+
+
+import React, { useEffect, useState} from "react";
+
 import Employeeheader from "./Employeeheader";
 import port from "./clientApi";
-function AddList(props) {
+import { useNavigate } from "react-router-dom";
+
+import { query, collection, getDocs, where } from "firebase/firestore";
+import { auth, db} from "./firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
+
+
+function AddList() {
+  const [user, loading, error] = useAuthState(auth)
   const [name, setName] = useState("");
   const [file, setFile] = useState("");
+  const [email, setEmail] = useState("");
+  // const navigate = useNavigate();
+  // useEffect(() => {
+  //   if (loading) return;
+  //   if (!user) return navigate("/");
+  //   fetchUserName();
+  // }, [user, loading]);
+
+  // const fetchUserName = async () => {
+  //   try {
+  //     const q = query(collection(db, "users"), where("uid", "==", user?.uid));
+  //     const doc = await getDocs(q);
+  //     const data = doc.docs[0].data();
+  //     setEmail(data.email);
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert("An error occured while fetching user data");
+  //   }
+  // };
+
   function additem(e) {
     fetch(`${port}/add`, {
       method: "POST",
@@ -19,6 +49,7 @@ function AddList(props) {
         code : generateString(8),
         status : "stored",
         name : name,
+        email : email
       }),
     })
       .then((res) => res.json())
@@ -40,7 +71,6 @@ function AddList(props) {
     reader.onload = () => {
       console.log(reader.result);
       setFile(reader.result);
-      // this.setState({ file: reader.result });
     };
     reader.onerror = (error) => {
       console.log("Error ", error);
@@ -53,7 +83,7 @@ function AddList(props) {
       <div className="container">
         <div className="row login">
           <div className="col-md-4">
-            <h1>Insert Item </h1>
+            <h1>Add Item </h1>
             <div className="form-group">
               <input
                 type="text"
@@ -61,6 +91,13 @@ function AddList(props) {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="name"
+              />
+               <input
+                type="text"
+                className="form-control textBox"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="customer email_id_registered"
               />
               <input
                 type="file"
