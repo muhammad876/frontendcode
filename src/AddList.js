@@ -1,12 +1,12 @@
 import { useState} from "react";
 import { Navigate } from "react-router-dom";
 import Employeeheader from "./Employeeheader";
-
-function AddList() {
+import port from "./clientApi";
+function AddList(props) {
   const [name, setName] = useState("");
   const [file, setFile] = useState("");
   function additem(e) {
-    fetch("https://mern-api-ten.vercel.app/add", {
+    fetch(`${port}/add`, {
       method: "POST",
       crossDomain: true,
       headers: {

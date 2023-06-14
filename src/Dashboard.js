@@ -6,13 +6,11 @@ import { auth, db, logout } from "./firebase";
 import { query, collection, getDocs, where } from "firebase/firestore";
 import CustomerDashboard from "./customerdashbaord";
 import EmployeeDashboard from "./employeedashbaord";
-
 function Dashbaord() {
   const [user, loading, error] = useAuthState(auth);
   const [name, setName] = useState("");
-
   const navigate = useNavigate();
-
+  let Users;
   useEffect(() => {
     if (loading) return;
     if (!user) return navigate("/");
@@ -34,7 +32,8 @@ function Dashbaord() {
   if (name == "Employee" || name == "employee") {
     return (
       <div>
-        <EmployeeDashboard></EmployeeDashboard>
+        {/* email = {User.getEmail()} */}
+        <EmployeeDashboard ></EmployeeDashboard>
       </div>
     );
   } else if (name == "Customer" || name == "customer") {

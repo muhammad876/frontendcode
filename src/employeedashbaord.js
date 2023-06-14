@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Employeeheader from "./Employeeheader";
 import "./App.css";
+import port from "./clientApi";
 import axios from "axios";
-function EmployeeDashboard() {
+function EmployeeDashboard(props) {
   const [imageData, setImageData] = useState([]);
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await fetch("https://mern-api-ten.vercel.app/getImage");
+        const response = await fetch(`${port}/getImage`);
         const data = await response.json();
         console.log(data.image);
         setImageData(data.image);
@@ -57,7 +58,7 @@ function EmployeeDashboard() {
       dropcolor,
     };
     axios
-      .post("https://mern-api-ten.vercel.app/update", inventory)
+      .post(`${port}/update`, inventory)
       .then((res) => {
         window.location.href = "/dashboard";
       })
@@ -101,7 +102,7 @@ function EmployeeDashboard() {
 
   return (
     <div>
-      <Employeeheader></Employeeheader>
+      <Employeeheader email={props.email}></Employeeheader>
       <div className="container">
         <div className="row">{data}</div>
       </div>

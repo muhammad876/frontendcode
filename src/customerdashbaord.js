@@ -3,12 +3,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./header";
 import axios from "axios";
 import "./App.css";
+import port from "./clientApi";
 function CustomerDashboard(props) {
   const [imageData, setImageData] = useState([]);
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const response = await fetch("https://mern-api-ten.vercel.app/getImage");
+        const response = await fetch(`${port}/getImage`);
         const data = await response.json();
         console.log(data._id);
         setImageData(data.image);
@@ -48,7 +49,7 @@ function CustomerDashboard(props) {
       }
     });
     var inventory = { id, base64, code, status, name, delievery, statuscolor,dropcolor };
-    axios.post("https://mern-api-ten.vercel.app/update", inventory)
+    axios.post(`${port}/update`, inventory)
       .then((res) => {
       
         window.location.href='/dashboard';

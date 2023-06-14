@@ -8,8 +8,9 @@ import { logout } from "./firebase";
 class Employeeheader extends Component {
     constructor(props) {
         super(props);
+        this.menutoggler = this.menutoggler.bind(this);
     }
- 
+   
      menutoggler(){
         var id_=document.getElementById("menu_items");
         id_.style.maxHeight="0px";
