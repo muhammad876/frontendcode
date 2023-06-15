@@ -8,23 +8,17 @@ import "./App.css";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import logo from './images/logo.png';
-function Register() {
+function AddEmployees() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [user, loading, error] = useAuthState(auth);
   const history = useNavigate();
   const register = () => {
-     setName("Customer");
+     setName("Employee");
      registerWithEmailAndPassword(name, email, password);
+     history("/dashboard");
   };
-  const handleChange = (e) => {
-    setName(e.target.value);
-  };
-  useEffect(() => {
-    if (loading) return;
-    if (user) history("/dashboard");
-  }, [user, loading]);
   return (
     <div className="body">
     <div className="container">
@@ -33,7 +27,7 @@ function Register() {
                 </div>
             <div className="row login">
               <div className="col-md-4">
-                <h1>Registration</h1>
+                <h1> Add Employee</h1>
                   <div className="form-group">
                   
                     <input
@@ -50,14 +44,10 @@ function Register() {
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Password"
                     />  
-                      {/* <select name="role"  value={name} onChange={handleChange} className="btn btn-warning form-control textBox">
-                      <option value= "Admin" >Admin</option>
-                      <option value="Customer" >Customer</option>
-                    </select> */}
                     <button className="btn btn-primary btnstyle" onClick={register}>
-                      Register
+                     Add Employee
                     </button>
-                    <div>  <Link className="btn btn-success btnstyle" to="/">Already have an account? Login</Link>
+                    <div>  <Link className="btn btn-success btnstyle" to="/">Back to Home </Link>
                     </div>
               </div>
             </div>
@@ -66,4 +56,4 @@ function Register() {
     </div>
   );
 }
-export default Register;
+export default AddEmployees;

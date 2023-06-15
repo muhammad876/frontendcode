@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Employeeheader from "./Employeeheader";
+import Adminheader from "./adminheader";
 import "./App.css";
 import port from "./clientApi";
 import axios from "axios";
@@ -9,7 +9,7 @@ import { query, collection, getDocs } from "firebase/firestore";
 import { auth, db} from "./firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-function EmployeeDashboard(props) {
+function AdminDashboard(props) {
   const [imageData, setImageData] = useState([]);
   const [user, loading, error] = useAuthState(auth)
   // const navigate = useNavigate();
@@ -122,11 +122,11 @@ function EmployeeDashboard(props) {
 
   return (
     <div>
-      <Employeeheader email={props.email}></Employeeheader>
+      <Adminheader email={props.email}></Adminheader>
       <div className="container">
         <div className="row">{data}</div>
       </div>
     </div>
   );
 }
-export default EmployeeDashboard;
+export default AdminDashboard;

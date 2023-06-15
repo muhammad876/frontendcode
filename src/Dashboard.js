@@ -1,17 +1,18 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import "./App.css";
-import { auth, db} from "./firebase";
+import { auth, db } from "./firebase";
 import { query, collection, getDocs, where } from "firebase/firestore";
 import CustomerDashboard from "./customerdashbaord";
 import EmployeeDashboard from "./employeedashbaord";
-function Dashbaord() {
+import AdminDashboard from "./admin";
+function Dashbaord(props) {
   const [user, loading] = useAuthState(auth);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     if (loading) return;
     if (!user) return navigate("/");
@@ -30,18 +31,30 @@ function Dashbaord() {
       alert("An error occured while fetching user data");
     }
   };
-
   if (name === "Employee" || name === "employee") {
     return (
       <div>
-     
         <EmployeeDashboard></EmployeeDashboard>
       </div>
     );
   } else if (name === "Customer" || name === "customer") {
     return (
       <div>
-        <CustomerDashboard email = {email}></CustomerDashboard>
+        <CustomerDashboard email={email}></CustomerDashboard>
+      </div>
+    );
+  }
+  else if (props.name === "Admin"){
+    return (
+      <div>
+        <AdminDashboard email={email}></AdminDashboard>
+      </div>
+    );
+  }
+  else {
+    return (
+      <div>
+        <AdminDashboard email={email}></AdminDashboard>
       </div>
     );
   }
