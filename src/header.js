@@ -35,16 +35,7 @@ function Header() {
       id_.style.maxHeight = "0px";
     }
   }
-
-  // const Payment = () => {
-  //                axios.post("http://localhost:3001/stripe").then((res) => {
-  //                 if(res.data.url){
-  //                     window.location.href = res.data.url;
-  //                 }
-  //                }).catch((error) => {
-  //                 console.log(error);
-  //                })
-  // }
+  
   return (
     <div className="container">
       <div className="navbar">
@@ -70,6 +61,7 @@ function Header() {
               </a>
             </li>
             <li>
+           
               <a href="/">
                 <button className="btn btn-primary" onClick={logout}>
                   Logout

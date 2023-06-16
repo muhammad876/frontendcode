@@ -16,6 +16,7 @@ function App() {
           <Route exact path="/addEmployee" element={<AddEmployees />} />
           <Route exact path="/addItem" element={<AddList />} />
           <Route exact path="/admin" element={<Dashboard name="Admin" />} />
+      
         </Routes>
       </Router>
     </div>

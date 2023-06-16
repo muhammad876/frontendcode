@@ -1,63 +1,109 @@
 import { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "./header";
 import axios from "axios";
 import "./App.css";
 import port from "./clientApi";
-import { useSendSignInLinkToEmail } from "react-firebase-hooks/auth";
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  Form,
+  ModalBody,
+  ModalFooter,
+} from "reactstrap";
 function CustomerDashboard(props) {
   const [imageData, setImageData] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [id_, setId] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [check, setCheck] = useState(false);
   useEffect(() => {
     let email = props.email;
     const fetchImages = async () => {
-
-        try {
-            const response = await axios.get(`${port}/getCustomerData/${email}`);
-            console.log(response.data);
-            setImageData(response.data.image);
-          } catch (error) {
-          console.log(error);
-        }
+      try {
+        const response = await axios.get(`${port}/getCustomerData/${email}`);
+        console.log(response.data);
+        setImageData(response.data.image);
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     fetchImages();
   }, []);
 
+  const toggle = () => setModal(!modal);
+  const modelButton = () =>{
+    setModal(!modal);
+    fetch(`${port}/dropin`, {
+      method: "POST",
+      crossDomain: true,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Accept-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        id: id_,
+        date : date,
+        time : time,
+        address : address,
+        email : email
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(" Added ");
+      });
+    } 
+
+
   const buttonClicked = (id) => {
-    var base64, code, status, name, delievery, statuscolor, dropcolor;
+    setModal(true);
+    setId(id);
+    let delievery,dropcolor;
     imageData.forEach((element) => {
       if (element._id === id) {
-        name = element.name;
-        base64 = element.image;
-        code = element.code;
-        status = element.status;
-        statuscolor = element.statuscolor;
-
-        if (element.delievery === "not yet") {
-          element.delievery = "Dropin";
-          delievery = "Dropin";
-          dropcolor = "btn btn-success";
-          element.dropcolor = "btn btn-success";
-        } else {
+       setEmail(element.email);
+        if (element.delievery === "Dropin") {
           element.delievery = "Dropout";
           delievery = "Dropout";
           dropcolor = "btn btn-danger";
           element.dropcolor = "btn btn-danger";
+        } else {
+             setCheck(true);
+             element.delievery = "Dropin";
+             delievery = "Dropin";
+             dropcolor = "btn btn-success";
+             element.dropcolor = "btn btn-success";
         }
       }
     });
-    var inventory = {
+
+      var inventory = {
+        id,
+        delievery,
+        dropcolor,
+      };
+      axios
+        .post(`${port}/update`, inventory)
+        .then((res) => {
+          window.location.href = "/dashboard";
+        })
+        .catch((err) => {
+          console.log(err.response);
+          alert("An error occurred! Try submitting the form again.");
+        });
+   
+    if(check) {
+    var list = {
       id,
-      base64,
-      code,
-      status,
-      name,
-      delievery,
-      statuscolor,
-      dropcolor,
     };
     axios
-      .post(`${port}/update`, inventory)
+      .post(`${port}/dropout`, list)
       .then((res) => {
         window.location.href = "/dashboard";
       })
@@ -65,15 +111,8 @@ function CustomerDashboard(props) {
         console.log(err.response);
         alert("An error occurred! Try submitting the form again.");
       });
-    console.log(id);
+  }
   };
-
-  // function generateString(length) {
-  //   const result = Math.random()
-  //     .toString(36)
-  //     .substring(2, length + 2);
-  //   return result;
-  // }
   const data = imageData.map((data, index) => {
     return (
       <div className="col-sm-4 cardbottom" key={data._id}>
@@ -108,9 +147,39 @@ function CustomerDashboard(props) {
   });
 
   return (
-
     <div>
       <Header></Header>
+      <Modal isOpen={modal} toggle={toggle}>
+        <ModalHeader toggle={toggle} >Dropin</ModalHeader>
+        <ModalBody>
+          <input
+            type="date"
+            className="form-control textBox"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            placeholder="date"
+          />
+          <input
+            type="time"
+            className="form-control textBox"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            placeholder="time"
+          />
+          <input
+            type="text"
+            className="form-control textBox"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            placeholder="address"
+          />
+        </ModalBody>
+        <ModalFooter>
+          <Button variant="primary" type="submit" onClick={modelButton}>
+            Submit
+          </Button>
+        </ModalFooter>
+      </Modal>
       <div className="container">
         <div className="row">{data}</div>
       </div>

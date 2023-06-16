@@ -1,7 +1,7 @@
 
 
-import React, { useEffect, useState} from "react";
-
+import React, {  useState} from "react";
+import {useNavigate} from 'react-router-dom';
 import Employeeheader from "./Employeeheader";
 import port from "./clientApi";
 
@@ -9,7 +9,7 @@ import port from "./clientApi";
 
 
 function AddList() {
- 
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [file, setFile] = useState("");
   const [email, setEmail] = useState("");
@@ -34,8 +34,7 @@ function AddList() {
       .then((res) => res.json())
       .then((data) => {
         console.log(" Added ");
-        window.location.href='/dashboard';
-       
+        navigate("/dashboard");
       });
 
   }

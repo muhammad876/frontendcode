@@ -51,7 +51,7 @@ function Dashbaord(props) {
       </div>
     );
   }
-  else {
+  else  if (name === "Admin" || name === "admin") {
     return (
       <div>
         <AdminDashboard email={email}></AdminDashboard>
