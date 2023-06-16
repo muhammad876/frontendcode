@@ -4,7 +4,7 @@ import React, {  useState} from "react";
 import {useNavigate} from 'react-router-dom';
 import Employeeheader from "./Employeeheader";
 import port from "./clientApi";
-
+import axios from "axios";
 
 
 
@@ -15,27 +15,45 @@ function AddList() {
   const [email, setEmail] = useState("");
 
   function additem(e) {
-    fetch(`${port}/add`, {
-      method: "POST",
-      crossDomain: true,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        "Accept-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify({
-        base64: file,
-        code : generateString(8),
-        status : "stored",
-        name : name,
-        email : email
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-       alert("Added");
-        navigate("/dashboard");
+
+    var inventory = {
+      base64: file,
+      code : generateString(8),
+      status : "stored",
+      name : name,
+      email : email
+    };
+    axios
+      .post(`${port}/add`, inventory)
+      .then((res) => {
+        window.location.href = "/dashboard";
+      })
+      .catch((err) => {
+        console.log(err.response);
+        alert("An error occurred! Try submitting the form again.");
       });
+    // fetch(`${port}/add`, {
+    //   method: "POST",
+    //   crossDomain: true,
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Accept: "application/json",
+    //     "Accept-Control-Allow-Origin": "*",
+    //   },
+    //   body: JSON.stringify({
+    //     base64: file,
+    //     code : generateString(8),
+    //     status : "stored",
+    //     name : name,
+    //     email : email
+    //   }),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //    alert("Added");
+     
+    //   });
+      navigate("/dashboard");
 
   }
   function generateString(length) {
