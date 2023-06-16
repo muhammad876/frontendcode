@@ -19,7 +19,6 @@ function CustomerDashboard(props) {
   const [id_, setId] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
-  const [check, setCheck] = useState(false);
   useEffect(() => {
     let email = props.email;
     const fetchImages = async () => {
@@ -38,6 +37,27 @@ function CustomerDashboard(props) {
   const toggle = () => setModal(!modal);
   const modelButton = () =>{
     setModal(!modal);
+
+    let delievery,dropcolor;
+    imageData.forEach((element) => {
+      if (element._id === id_) {
+       setEmail(element.email);
+        if (element.delievery === "Dropin") {
+          element.delievery = "Dropout";
+          delievery = "Dropout";
+          dropcolor = "btn btn-danger";
+          element.dropcolor = "btn btn-danger";
+        } else {
+           
+             element.delievery = "Dropin";
+             delievery = "Dropin";
+             dropcolor = "btn btn-success";
+             element.dropcolor = "btn btn-success";
+        }
+      }
+    });
+
+
     fetch(`${port}/dropin`, {
       method: "POST",
       crossDomain: true,
@@ -56,40 +76,38 @@ function CustomerDashboard(props) {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(" Added ");
+        console.log("Added");
       });
+  
+        var inventory = {
+          id_,
+          delievery,
+          dropcolor,
+        };
+        axios
+          .post(`${port}/update`, inventory)
+          .then((res) => {
+            window.location.href = "/dashboard";
+          })
+          .catch((err) => {
+            console.log(err.response);
+            alert("An error occurred! Try submitting the form again.");
+          });
     } 
 
 
-  const buttonClicked = (id) => {
-    setModal(true);
-    setId(id);
-    let delievery,dropcolor;
-    imageData.forEach((element) => {
-      if (element._id === id) {
-       setEmail(element.email);
-        if (element.delievery === "Dropin") {
-          element.delievery = "Dropout";
-          delievery = "Dropout";
-          dropcolor = "btn btn-danger";
-          element.dropcolor = "btn btn-danger";
-        } else {
-             setCheck(true);
-             element.delievery = "Dropin";
-             delievery = "Dropin";
-             dropcolor = "btn btn-success";
-             element.dropcolor = "btn btn-success";
-        }
-      }
-    });
-
-      var inventory = {
+  const buttonClicked = (id,dataVal) => {
+    if(dataVal === "Dropin"){
+      setModal(true);
+      setId(id);
+    }
+    else{
+      alert(dataVal)
+      var list = {
         id,
-        delievery,
-        dropcolor,
       };
       axios
-        .post(`${port}/update`, inventory)
+        .post(`${port}/dropout`, list)
         .then((res) => {
           window.location.href = "/dashboard";
         })
@@ -97,21 +115,7 @@ function CustomerDashboard(props) {
           console.log(err.response);
           alert("An error occurred! Try submitting the form again.");
         });
-   
-    if(check) {
-    var list = {
-      id,
-    };
-    axios
-      .post(`${port}/dropout`, list)
-      .then((res) => {
-        window.location.href = "/dashboard";
-      })
-      .catch((err) => {
-        console.log(err.response);
-        alert("An error occurred! Try submitting the form again.");
-      });
-  }
+    }
   };
   const data = imageData.map((data, index) => {
     return (
@@ -128,7 +132,7 @@ function CustomerDashboard(props) {
           <div className="card-img-overlay">
             <button
               className={data.dropcolor}
-              onClick={buttonClicked.bind(this, data._id)}
+              onClick={buttonClicked.bind(this, data._id,data.delievery)}
             >
               {data.delievery}
             </button>

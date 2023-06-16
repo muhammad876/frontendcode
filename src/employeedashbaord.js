@@ -6,12 +6,12 @@ import port from "./clientApi";
 import axios from "axios";
 
 import { query, collection, getDocs } from "firebase/firestore";
-import { auth, db} from "./firebase";
+import { auth, db } from "./firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 function EmployeeDashboard(props) {
   const [imageData, setImageData] = useState([]);
-  const [user, loading, error] = useAuthState(auth)
+  const [user, loading, error] = useAuthState(auth);
   // const navigate = useNavigate();
 
   const fetchUserName = async () => {
@@ -43,11 +43,11 @@ function EmployeeDashboard(props) {
     var base64, code, status, name, delievery, statuscolor, dropcolor;
     imageData.forEach((element) => {
       if (element._id === id) {
-        name = element.name;
-        base64 = element.image;
-        code = element.code;
-        delievery = element.delievery;
-        dropcolor = element.dropcolor;
+        // name = element.name;
+        // base64 = element.image;
+        // code = element.code;
+        // delievery = element.delievery;
+        // dropcolor = element.dropcolor;
         if (element.status === "stored") {
           status = "en route";
           statuscolor = "btn btn-warning";
@@ -68,16 +68,16 @@ function EmployeeDashboard(props) {
     });
     var inventory = {
       id,
-      base64,
-      code,
+      // base64,
+      // code,
       status,
-      name,
-      delievery,
+      // name,
+      // delievery,
       statuscolor,
-      dropcolor,
+      // dropcolor,
     };
     axios
-      .post(`${port}/update`, inventory)
+      .post(`${port}/updateStatus`, inventory)
       .then((res) => {
         window.location.href = "/dashboard";
       })

@@ -33,7 +33,7 @@ function AddList() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(" Added ");
+       alert("Added");
         navigate("/dashboard");
       });
 
