@@ -22,7 +22,6 @@ function EmployeeDashboard(props) {
       console.log(data);
     } catch (err) {
       console.error(err);
-      alert("An error occured while fetching user data");
     }
   };
   useEffect(() => {

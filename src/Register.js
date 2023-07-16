@@ -50,10 +50,6 @@ function Register() {
                       onChange={(e) => setPassword(e.target.value)}
                       placeholder="Password"
                     />  
-                      {/* <select name="role"  value={name} onChange={handleChange} className="btn btn-warning form-control textBox">
-                      <option value= "Admin" >Admin</option>
-                      <option value="Customer" >Customer</option>
-                    </select> */}
                     <button className="btn btn-primary btnstyle" onClick={register}>
                       Register
                     </button>

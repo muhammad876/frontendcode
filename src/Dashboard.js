@@ -7,6 +7,7 @@ import { query, collection, getDocs, where } from "firebase/firestore";
 import CustomerDashboard from "./customerdashbaord";
 import EmployeeDashboard from "./employeedashbaord";
 import AdminDashboard from "./admin";
+import Errorheader from "./errorheader";
 function Dashbaord(props) {
   const [user, loading] = useAuthState(auth);
   const [name, setName] = useState("");
@@ -28,7 +29,6 @@ function Dashbaord(props) {
       setEmail(data.email);
     } catch (err) {
       console.error(err);
-      alert("An error occured while fetching user data");
     }
   };
   if (name === "Employee" || name === "employee") {
@@ -55,6 +55,13 @@ function Dashbaord(props) {
     return (
       <div>
         <AdminDashboard email={email}></AdminDashboard>
+      </div>
+    );
+  }
+  else{
+    return (
+      <div>
+         <Errorheader></Errorheader>
       </div>
     );
   }
