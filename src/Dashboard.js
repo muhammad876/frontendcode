@@ -27,8 +27,10 @@ function Dashbaord(props) {
       const data = doc.docs[0].data();
       setName(data.name);
       setEmail(data.email);
+    
     } catch (err) {
       console.error(err);
+      alert(err);
     }
   };
   if (name === "Employee" || name === "employee") {

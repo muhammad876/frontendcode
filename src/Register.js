@@ -2,7 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   auth,
   registerWithEmailAndPassword,
-  signInWithGoogle,
 } from "./firebase";
 import "./App.css";
 import React, { useEffect, useState } from "react";
@@ -12,14 +11,11 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const history = useNavigate();
   const register = () => {
-     setName("Customer");
-     registerWithEmailAndPassword(name, email, password);
-  };
-  const handleChange = (e) => {
-    setName(e.target.value);
+     alert("Customer");
+     registerWithEmailAndPassword("Customer", email, password);
   };
   useEffect(() => {
     if (loading) return;

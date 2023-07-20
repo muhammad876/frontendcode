@@ -11,12 +11,11 @@ import logo from './images/logo.png';
 function AddEmployees() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
   const [user, loading, error] = useAuthState(auth);
   const history = useNavigate();
   const register = () => {
-     setName("Employee");
-     registerWithEmailAndPassword(name, email, password);
+     registerWithEmailAndPassword("Employee", email, password);
+     alert("Added Successfully");
      history("/dashboard");
   };
   return (
