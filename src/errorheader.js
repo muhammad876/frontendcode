@@ -37,8 +37,7 @@ class Errorheader extends Component {
                <img src={Menu} className="menu" onClick={this.menutoggler} />
               
             </div>
-            <h2>Invalid Credientals</h2>
-            {/* <Navigations></Navigations> */}
+           
         </div>
     );
 
