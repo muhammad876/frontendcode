@@ -4,6 +4,7 @@ import { auth, signInWithEmailAndPassword, signInWithGoogle } from "./firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import logo from "./images/logo.png";
 import "bootstrap/dist/css/bootstrap.min.css";
+import icon from './images/icon.svg';
 import "./App.css";
 function Login() {
   const [email, setEmail] = useState("");
@@ -51,7 +52,7 @@ function Login() {
                 value={name}
                 onChange={handleChange}
                 className="btn btn-warning form-control textBox"
-              >
+              > <span><FontAwesomeIcon icon="fa-regular fa-caret-down" /></span>
                 <option value="Employee">Employee</option>
                 <option value="Customer">Customer</option>
                 <option value="Admin">Admin</option>

@@ -16,7 +16,7 @@ function AddEmployees() {
   const register = () => {
      registerWithEmailAndPassword("Employee", email, password);
      alert("Added Successfully");
-     history("/dashboard");
+    //  history("/dashboard");
   };
   return (
     <div className="body">
